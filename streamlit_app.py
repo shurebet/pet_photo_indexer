@@ -109,33 +109,33 @@ def _db_has_required_tables(conn: sqlite3.Connection) -> bool:
 
 def main() -> None:
     st.set_page_config(page_title="Photo Indexer Dashboard", layout="wide")
-    st.title("Photo Indexer — поиск по тегам и дате")
+    st.title("Photo Indexer — search by tags and date")
 
     with st.sidebar:
-        st.header("Источник данных")
-        db_path_str = st.text_input("Путь к SQLite БД", value="photo_index.db")
+        st.header("Data source")
+        db_path_str = st.text_input("SQLite DB path", value="photo_index.db")
         db_path = Path(db_path_str)
 
-        st.header("Фильтры")
-        tags_query = st.text_input("Теги (например: dog beach)", value="")
-        match_all = st.toggle("Требовать все слова", value=False)
+        st.header("Filters")
+        tags_query = st.text_input("Tags (for example: dog beach)", value="")
+        match_all = st.toggle("Require all words", value=False)
 
         col1, col2 = st.columns(2)
         with col1:
-            date_from = st.date_input("Дата от", value=None)
+            date_from = st.date_input("Date from", value=None)
         with col2:
-            date_to = st.date_input("Дата до", value=None)
+            date_to = st.date_input("Date to", value=None)
 
-        limit = st.slider("Лимит результатов", min_value=20, max_value=500, value=200, step=20)
+        limit = st.slider("Result limit", min_value=20, max_value=500, value=200, step=20)
 
-        run = st.button("Искать", type="primary")
+        run = st.button("Search", type="primary")
 
     if not run:
-        st.caption("Настройте фильтры слева и нажмите «Искать».")
+        st.caption("Set filters in the sidebar and click Search.")
         return
 
     if not db_path.exists():
-        st.error(f"Файл БД не найден: {db_path}")
+        st.error(f"Database file not found: {db_path}")
         return
 
     params = QueryParams(
@@ -155,25 +155,28 @@ def main() -> None:
 
     with conn:
         if not _db_has_required_tables(conn):
-            st.error("В БД не найдены нужные таблицы `photos` и `photo_tags`. Сначала запустите индексатор с включёнными тегами.")
+            st.error(
+                "Required tables `photos` and `photo_tags` were not found in this database. "
+                "Run the indexer with tags enabled first."
+            )
             return
 
         sql, sql_params = _build_sql(params)
         rows = conn.execute(sql, sql_params).fetchall()
 
     if not rows:
-        st.info("Ничего не найдено.")
+        st.info("No results found.")
         return
 
     df = pd.DataFrame([dict(r) for r in rows])
-    st.subheader(f"Найдено: {len(df)}")
+    st.subheader(f"Found: {len(df)}")
     st.dataframe(
         df.drop(columns=[c for c in ["preview_path"] if c in df.columns]),
         use_container_width=True,
         hide_index=True,
     )
 
-    st.subheader("Просмотр")
+    st.subheader("Preview")
     cols = st.columns(4)
     for i, r in enumerate(rows):
         c = cols[i % 4]
@@ -185,9 +188,9 @@ def main() -> None:
             if img_path:
                 st.image(str(img_path), use_container_width=True)
             else:
-                st.write("(файл не найден)")
+                st.write("(file not found)")
             if r["taken_at"]:
-                st.write(f"Дата: {r['taken_at']}")
+                st.write(f"Date: {r['taken_at']}")
             if r["tags"]:
                 st.write(r["tags"])
 

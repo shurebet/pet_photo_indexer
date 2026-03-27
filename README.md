@@ -33,3 +33,7 @@ The SQLite file contains the following tables:
 - `previews`: preview path and preview size
 - `photo_tags`: top-k tags from a pretrained model (`mobilenet_v3_large`/`resnet50`) with confidence score
 
+## API documentation
+
+Detailed documentation for all project functions and data structures is available in `docs/API.md`.
+
