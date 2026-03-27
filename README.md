@@ -1,8 +1,8 @@
 # photo-indexer
 
-Индексатор архива фотографий: рекурсивно сканирует папку, извлекает EXIF (дата/гео), создаёт превью и сохраняет всё в SQLite.
+Photo archive indexer: recursively scans a folder, extracts EXIF data (date/GPS), creates previews, and stores everything in SQLite.
 
-## Установка
+## Installation
 
 ```bash
 python -m venv .venv
@@ -10,26 +10,26 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## Использование
+## Usage
 
 ```bash
 python -m photo_indexer.main --root "D:\Photos" --db "photo_index.db" --previews ".previews" --size 512
 ```
 
-Повторный запуск безопасен: записи обновляются по пути файла.
+Re-running is safe: records are updated by file path.
 
-## Streamlit-дашборд (поиск по тегам и дате)
+## Streamlit dashboard (search by tags and date)
 
 ```bash
 streamlit run streamlit_app.py
 ```
 
-В дашборде укажите путь к вашей SQLite БД (например, `photo_index.db`) и задайте теги (`dog beach`) и/или диапазон дат.
+In the dashboard, provide the path to your SQLite database (for example, `photo_index.db`) and set tags (`dog beach`) and/or a date range.
 
-## Схема БД
+## Database schema
 
-SQLite-файл содержит таблицы:
-- `photos`: путь, размер, mtime, модель камеры, дата съёмки, GPS (lat/lon)
-- `previews`: путь к превью и его размер
-- `photo_tags`: теги (top-k) от предобученной модели (`mobilenet_v3_large`/`resnet50`) с вероятностью
+The SQLite file contains the following tables:
+- `photos`: path, size, mtime, camera model, capture date, GPS (lat/lon)
+- `previews`: preview path and preview size
+- `photo_tags`: top-k tags from a pretrained model (`mobilenet_v3_large`/`resnet50`) with confidence score
 
