@@ -118,10 +118,10 @@ This document describes all functions and data structures in the project.
 ### `is_supported_image(path: Path) -> bool`
 - Checks whether file extension is one of supported image types.
 
-### `preview_output_path(previews_dir: Path, photo_path: Path) -> Path`
-- Builds deterministic preview output path from source image path.
-- Normalizes Windows drive prefix (for example `D:` -> `D_`).
-- Changes output extension to `<original_ext>.webp`.
+### `preview_output_path(previews_dir: Path, root_dir: Path, photo_path: Path) -> Path`
+- Builds preview output path with a mirrored folder hierarchy.
+- For each directory level from `root_dir` to the photo's directory, appends `_min` to the directory name.
+- Changes output extension to `<original_ext>.webp` (e.g. `img.jpg.webp`).
 
 ### `create_preview(photo_path: Path, out_path: Path, size: int) -> Optional[Path]`
 - Opens image, applies EXIF orientation, resizes to thumbnail, converts modes if needed, saves as WEBP.

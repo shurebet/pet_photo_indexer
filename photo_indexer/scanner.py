@@ -55,7 +55,7 @@ def scan_and_index(
         dbmod.upsert_photo(conn, rec)
 
         if opts.previews_dir is not None:
-            out = preview_output_path(opts.previews_dir, path)
+            out = preview_output_path(opts.previews_dir, opts.root, path)
             created = create_preview(path, out, size=opts.preview_size)
             if created is not None:
                 dbmod.upsert_preview(

@@ -18,6 +18,16 @@ python -m photo_indexer.main --root "D:\Photos" --db "photo_index.db" --previews
 
 Re-running is safe: records are updated by file path.
 
+## Preview output layout
+
+Previews are stored under the `--previews` directory and mirror the scanned folder hierarchy.  
+Every directory name from the scan root down to the photo's directory gets the `_min` suffix.
+
+Example:
+- scan root: `D:\Photos`
+- photo: `D:\Photos\2020\beach\img.jpg`
+- preview: `.previews\Photos_min\2020_min\beach_min\img.jpg.webp`
+
 ## Streamlit dashboard (search by tags and date)
 
 ```bash
