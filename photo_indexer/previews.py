@@ -11,24 +11,18 @@ def is_supported_image(path: Path) -> bool:
 
 
 def preview_output_path(previews_dir: Path, root_dir: Path, photo_path: Path) -> Path:
-    """
-    Builds preview output path with a mirrored folder hierarchy.
+    """Builds preview output path with a mirrored folder hierarchy.
 
-    For every directory level from `root_dir` to the photo's directory, we append `_min`.
-    Example (Linux-like paths):
-      root_dir:  /photos
-      photo:     /photos/2020/beach/img.jpg
+    Example (Windows-like paths):
+      root_dir:  D:\\Photos
+      photo:     D:\\Photos\\2020\\beach\\img.jpg
       previews:  .previews
-      output:    .previews/photos_min/2020_min/beach_min/img.jpg.webp
+      output:    .previews\\Photos\\2020\\beach\\img.jpg.webp
     """
     relative = photo_path.relative_to(root_dir)
     rel_dir = relative.parent
-
-    dir_parts = [f"{p}_min" for p in rel_dir.parts if p not in ("", ".")]
-    root_name_min = f"{root_dir.name}_min"
-
-    return (
-        previews_dir.joinpath(root_name_min, *dir_parts).with_suffix(photo_path.suffix + ".webp")
+    return previews_dir.joinpath(root_dir.name, rel_dir, photo_path.name).with_suffix(
+        photo_path.suffix + ".webp"
     )
 
 

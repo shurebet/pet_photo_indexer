@@ -20,13 +20,13 @@ Re-running is safe: records are updated by file path.
 
 ## Preview output layout
 
-Previews are stored under the `--previews` directory and mirror the scanned folder hierarchy.  
-Every directory name from the scan root down to the photo's directory gets the `_min` suffix.
+Previews are stored under the `--previews` directory and mirror the scanned folder hierarchy.
+Directory names are kept the same as in the scan root.
 
 Example:
 - scan root: `D:\Photos`
 - photo: `D:\Photos\2020\beach\img.jpg`
-- preview: `.previews\Photos_min\2020_min\beach_min\img.jpg.webp`
+- preview: `.previews\Photos\2020\beach\img.jpg.webp`
 
 ## Streamlit dashboard (search by tags and date)
 

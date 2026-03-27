@@ -120,7 +120,7 @@ This document describes all functions and data structures in the project.
 
 ### `preview_output_path(previews_dir: Path, root_dir: Path, photo_path: Path) -> Path`
 - Builds preview output path with a mirrored folder hierarchy.
-- For each directory level from `root_dir` to the photo's directory, appends `_min` to the directory name.
+- Keeps directory names identical to the scanned root hierarchy.
 - Changes output extension to `<original_ext>.webp` (e.g. `img.jpg.webp`).
 
 ### `create_preview(photo_path: Path, out_path: Path, size: int) -> Optional[Path]`
