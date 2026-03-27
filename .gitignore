@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Local databases and generated previews
+*.db
+*.sqlite
+.previews/
+
+# Personal photo archives
+photo/
+photos/
+*.jpg
+*.jpeg
+*.png
+*.heic
+*.webp
+*.tif
+*.tiff
+
